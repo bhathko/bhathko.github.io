@@ -86,6 +86,9 @@
       <!-- <button onclick="playMusic()">play</button> -->
     </div>
     <script>
+      const audio = new Audio('./public/happy.mp3');
+      audio.autoplay = true;
+      audio.loop = true;
       const targetTime = new Date('2023-11-01 00:00:00').getTime();
       const elpasedTime = targetTime - Date.now();
       const hours = Math.floor(elpasedTime / (1000 * 60 * 60));
@@ -115,7 +118,6 @@
 
       const leadingZero = (num) => (num < 10 ? `0${num}` : num);
       function playMusic() {
-        const audio = new Audio('./public/happy.mp3');
         audio.play();
       }
     </script>
