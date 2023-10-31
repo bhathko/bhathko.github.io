@@ -11,13 +11,15 @@
         padding: 0;
         box-sizing: border-box;
       }
+      body {
+        background-color: rgb(187, 72, 72);
+      }
       .container {
         display: flex;
         align-items: center;
         padding-top: 120px;
         height: 100vh;
         flex-direction: column;
-        background-color: rgb(187, 72, 72);
       }
       .timer {
         display: flex;
@@ -50,6 +52,17 @@
         max-width: 300px;
         animation: jelly 1s infinite;
       }
+      .stage1 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-bottom: 300px;
+        height: 100vh;
+      }
+      .stage2 {
+        display: none;
+        flex-direction: column;
+      }
 
       @keyframes jelly {
 
@@ -68,7 +81,14 @@
       }
       }
       .player {
-        display: hidden;
+        border: 1px solid #f8ce72;
+        background: transparent;
+        color: #f8ce72;
+        border-radius: 9999px;
+        padding: 12px 24px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
       }
     </style>
   </head>
@@ -77,19 +97,25 @@
       <div class="tomato">
         <img class="tomatoImage" src="./public/tomato.svg" alt="">
       </div>
-      <div class="timer">
-        <div class="hours"></div>
-        <div class="minutes"></div>
-        <div class="seconds"></div>
+      <div class="stage1">
+        <button class="player" onclick="playMusic()">Click here to see what's coming soon.</button>
       </div>
-      <div class="text"></div>
-      <!-- <button onclick="playMusic()">play</button> -->
+      <div class="stage2">
+        <div class="timer">
+          <div class="hours"></div>
+          <div class="minutes"></div>
+          <div class="seconds"></div>
+        </div>
+        <div class="text"></div>
+      </div>
     </div>
+    
     <script>
       const audio = new Audio('./public/happy.mp3');
       audio.autoplay = true;
       audio.loop = true;
-      const targetTime = new Date('2023-11-01 00:00:00').getTime();
+      audio.muted = true;
+      const targetTime = new Date('2023-11-01 00:05:43').getTime();
       const elpasedTime = targetTime - Date.now();
       const hours = Math.floor(elpasedTime / (1000 * 60 * 60));
       const minutes = Math.floor((elpasedTime % (1000 * 60 * 60)) / (1000 * 60));
@@ -106,19 +132,20 @@
         document.querySelector('.minutes').textContent = leadingZero(minutes) + 'm' ;
         document.querySelector('.seconds').textContent = leadingZero(seconds) + 's';
         if (elpasedTime < 0) {
-          playMusic();
+          audio.muted = false;
           clearInterval(timerInterval);
-          document.querySelector('.hours').textContent = '00h';
-          document.querySelector('.minutes').textContent = '00m';
-          document.querySelector('.seconds').textContent = '00s';
+          document.querySelector('.hours').textContent = '';
+          document.querySelector('.minutes').textContent = '';
+          document.querySelector('.seconds').textContent = '';
           document.querySelector('.text').textContent = 'Happy Birthday!!!';
-
         }
       }, 1000);
 
       const leadingZero = (num) => (num < 10 ? `0${num}` : num);
       function playMusic() {
         audio.play();
+        document.querySelector('.stage1').style.display = 'none';
+        document.querySelector('.stage2').style.display = 'flex';
       }
     </script>
   </body>
