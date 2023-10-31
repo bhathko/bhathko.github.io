@@ -115,7 +115,7 @@
       audio.autoplay = true;
       audio.loop = true;
       audio.muted = true;
-      const targetTime = new Date('2023-11-01 00:05:48').getTime();
+      const targetTime = new Date('2023-11-01 00:00:00').getTime();
       const elpasedTime = targetTime - Date.now();
       const hours = Math.floor(elpasedTime / (1000 * 60 * 60));
       const minutes = Math.floor((elpasedTime % (1000 * 60 * 60)) / (1000 * 60));
@@ -131,6 +131,7 @@
         document.querySelector('.hours').textContent = leadingZero(hours) + 'h' ;
         document.querySelector('.minutes').textContent = leadingZero(minutes) + 'm' ;
         document.querySelector('.seconds').textContent = leadingZero(seconds) + 's';
+        console.log(elpasedTime)
         if (elpasedTime < 0) {
           audio.muted = false;
           clearInterval(timerInterval);
