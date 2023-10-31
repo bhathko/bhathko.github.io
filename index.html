@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tomato Birthday</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .container {
+        display: flex;
+        align-items: center;
+        padding-top: 120px;
+        height: 100vh;
+        flex-direction: column;
+        background-color: rgb(187, 72, 72);
+      }
+      .timer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        font-family: "Roboto Mono", monospace;
+        font-size: 2rem;
+        font-weight: 700;
+        color: #f8ce72;
+        padding-top: 20px;
+      }
+      .timer > div {
+        margin-right: 12px;
+      }
+      .timer > div:last-child {
+        margin-right: 0;
+      }
+      .text {
+        width: 100%;
+        text-align: center;
+        font-family: "Roboto Mono", monospace;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #f8ce72;
+        font-size: 2rem;
+      }
+      .tomatoImage {
+        width: 100%;
+        max-width: 300px;
+        animation: jelly 1s infinite;
+      }
+
+      @keyframes jelly {
+
+      0%,
+      100% {
+          transform: scale(1, 1) rotate(-3deg);
+      }
+
+      25%,
+      75% {
+          transform: scale(0.9, 1.1) rotate(3deg);
+      }
+
+      50% {
+          transform: scale(1.1, 0.9) rotate(-3deg);
+      }
+      }
+      .player {
+        display: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="tomato">
+        <img class="tomatoImage" src="/tomato.svg" alt="">
+      </div>
+      <div class="timer">
+        <div class="hours"></div>
+        <div class="minutes"></div>
+        <div class="seconds"></div>
+      </div>
+      <div class="text"></div>
+      <!-- <button onclick="playMusic()">play</button> -->
+    </div>
+    <script>
+      const targetTime = new Date('2023-10-31 22:28:00').getTime();
+      const elpasedTime = targetTime - Date.now();
+      const hours = Math.floor(elpasedTime / (1000 * 60 * 60));
+      const minutes = Math.floor((elpasedTime % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((elpasedTime % (1000 * 60)) / 1000);
+
+      const timerInterval = setInterval(() => {
+        const elpasedTime = targetTime - Date.now();
+        const hours = Math.floor(elpasedTime / (1000 * 60 * 60));
+        const minutes = Math.floor(
+          (elpasedTime % (1000 * 60 * 60)) / (1000 * 60)
+        );
+        const seconds = Math.floor((elpasedTime % (1000 * 60)) / 1000);
+        document.querySelector('.hours').textContent = leadingZero(hours) + 'h' ;
+        document.querySelector('.minutes').textContent = leadingZero(minutes) + 'm' ;
+        document.querySelector('.seconds').textContent = leadingZero(seconds) + 's';
+        if (elpasedTime < 0) {
+          playMusic();
+          clearInterval(timerInterval);
+          document.querySelector('.hours').textContent = '';
+          document.querySelector('.minutes').textContent = '';
+          document.querySelector('.seconds').textContent = '';
+          document.querySelector('.text').textContent = 'Happy Birthday!!!';
+
+        }
+      }, 1000);
+
+      const leadingZero = (num) => (num < 10 ? `0${num}` : num);
+      function playMusic() {
+        const audio = new Audio('/happy.mp3');
+        audio.play();
+      }
+    </script>
+  </body>
+</html>
